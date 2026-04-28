@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/asignaciones")
 public class AsignacionController {
@@ -22,5 +24,10 @@ public class AsignacionController {
     public ResponseEntity<AsignacionResponseDTO> asignar(@Valid @RequestBody AsignacionRequestDTO dto) {
         AsignacionResponseDTO resultado = service.asignar(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(resultado);
+    }
+
+    @GetMapping("/paciente/{pacienteId}")
+    public ResponseEntity<List<AsignacionResponseDTO>> obtenerPorPaciente(@PathVariable Long pacienteId) {
+        return ResponseEntity.ok(service.obtenerPorPaciente(pacienteId));
     }
 }

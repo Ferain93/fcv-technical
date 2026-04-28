@@ -8,6 +8,8 @@ import com.prueba.mi_api.model.PacienteMedicamento;
 import com.prueba.mi_api.repository.PacienteMedicamentoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AsignacionService {
 
@@ -36,15 +38,25 @@ public class AsignacionService {
 
         PacienteMedicamento guardada = repository.save(asignacion);
 
+        return toResponseDTO(guardada);
+    }
+
+    public List<AsignacionResponseDTO> obtenerPorPaciente(Long pacienteId) {
+        return repository.findByPacienteId(pacienteId).stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
+
+    private AsignacionResponseDTO toResponseDTO(PacienteMedicamento pm) {
         return new AsignacionResponseDTO(
-                guardada.getId(),
-                paciente.getId(),
-                paciente.getNombre() + " " + paciente.getApellido(),
-                medicamento.getId(),
-                medicamento.getNombre(),
-                guardada.getDosis(),
-                guardada.getFrecuencia(),
-                guardada.getFechaInicio()
+                pm.getId(),
+                pm.getPaciente().getId(),
+                pm.getPaciente().getNombre() + " " + pm.getPaciente().getApellido(),
+                pm.getMedicamento().getId(),
+                pm.getMedicamento().getNombre(),
+                pm.getDosis(),
+                pm.getFrecuencia(),
+                pm.getFechaInicio()
         );
     }
 }
