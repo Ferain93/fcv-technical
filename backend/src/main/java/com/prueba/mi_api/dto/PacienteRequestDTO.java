@@ -12,6 +12,7 @@ public record PacienteRequestDTO(
     String apellido,
 
     @NotNull(message = "La fecha de nacimiento es obligatoria")
+    @Past(message = "La fecha de nacimiento debe ser anterior a la fecha actual")
     LocalDate fechaNacimiento,
 
     @NotBlank(message = "El género es obligatorio")

@@ -24,6 +24,7 @@ public class Paciente {
     private String apellido;
 
     @NotNull(message = "La fecha de nacimiento es obligatoria")
+    @Past(message = "La fecha de nacimiento debe ser anterior a la fecha actual")
     @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
 

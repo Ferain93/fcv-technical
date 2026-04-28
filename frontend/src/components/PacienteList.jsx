@@ -21,12 +21,13 @@ export default function PacienteList({ onVerDetalle }) {
   const [loading, setLoading] = useState(true);
   const [busqueda, setBusqueda] = useState('');
 
-  const cargarPacientes = async () => {
+  const cargarPacientes = async (termino) => {
     setLoading(true);
     try {
+      const query = termino !== undefined ? termino : busqueda;
       let res;
-      if (busqueda.trim()) {
-        res = await buscarPorDiagnostico(busqueda.trim());
+      if (query.trim()) {
+        res = await buscarPorDiagnostico(query.trim());
       } else {
         res = await obtenerPacientes();
       }
@@ -77,7 +78,7 @@ export default function PacienteList({ onVerDetalle }) {
           <button
             type="button"
             className="btn btn-secondary btn-sm"
-            onClick={() => { setBusqueda(''); setTimeout(cargarPacientes, 0); }}
+            onClick={() => { setBusqueda(''); cargarPacientes(''); }}
           >
             Limpiar
           </button>
